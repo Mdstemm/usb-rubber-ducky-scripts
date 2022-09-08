@@ -1,0 +1,68 @@
+ATTACKMODE HID STORAGE
+REM Title: auto git repo
+REM Author: Tatical Moose
+REM Description: clones a givin repository to the desktop
+REM Target:	Windows, powershell 5+
+REM Category: Tool
+REM
+REM Edit these to match desired folder and repo
+
+REM sets the folder location that the repo will be saved to default is C drive
+DEFINE DEST C:\
+REM sets the repo to be cloned, default is hak5's USB usb rubberducky payloads
+DEFINE REPO https://github.com/hak5/usbrubberducky-payloads.git
+
+DELAY 1000
+GUI r
+DELAY 1500 
+STRING notepad
+ENTER
+DELAY 2000
+STRINGLN Welcome to ez Git clone!
+STRINGLN MAKE SURE YOU HAVE SET UP repo AND dest(ination) IN PAYLOAD
+STRINGLN Current dest is: DEST 
+STRINGLN Current repo is: REPO
+STRINGLN Press the device button to continue
+
+WAIT_FOR_BUTTON_PRESS
+
+DELAY 2000
+GUI r
+DELAY 1000
+STRING powershell
+ENTER 
+DELAY 11000
+REM SOME MONITERED SYSTEMS NEED TRUE USER APPROVAL TO RUN, TRUE CLICK ON APPROVE/OKAY
+STRING Install-Module posh-git -Scope CurrentUser -Force
+ENTER
+DELAY 9000
+STRING y
+ENTER
+DELAY 9000 
+STRING Import-Module posh-git
+ENTER
+DELAY 1000
+STRING Add-PoshGitToProfile -AllHosts
+ENTER
+DELAY 1000
+STRING git
+ENTER
+DELAY 1000
+STRING Write-Host `n`nIf git help has printed press 'caps lock' to continue`n else instal failed, remove device`n`n
+ENTER
+DELAY 1000
+WAIT_FOR_CAPS_CHANGE
+DELAY 500
+IF($_CAPSLOCK_ON)
+CAPSLOCK
+DELAY 500
+END_IF
+REM get clone process
+STRING cd 
+STRING DEST
+ENTER
+DELAY 1000
+STRING git clone 
+STRING REPO
+ENTER
+
